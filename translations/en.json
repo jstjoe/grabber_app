@@ -2,30 +2,23 @@
   "app": {
     "package": "app_name",
     "description": {
-      "value": "Play the famous zen tunes in your help desk.",
+      "value": "Assign tickets to the current Agent if they are using 'Play'.",
       "title": "app description"
     },
     "name": {
-      "value": "Buddha Machine",
+      "value": "Grabber",
       "title": "app name"
-    }
-  },
-
-  "loading": {
-    "value": "Welcome to this Sample App",
-    "title": "loading placeholder"
-  },
-
-  "fetch": {
-    "done": {
-      "value": "Good",
-      "title": "fetch success"
     },
-    "fail": {
-      "value": "failed to fecth information from the server",
-      "title": "fetch failure"
+    "parameters": {
+      "force": {
+        "label": {
+          "value":"Update the ticket asychronously so the Agent has no opportunity to unassign before saving.",
+          "title":"Label message asking if assignment of tickets should be forced."
+        }
+      }
     }
   },
+
 
   "id": {
     "value": "ID",
