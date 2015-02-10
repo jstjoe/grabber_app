@@ -1,7 +1,8 @@
 (function() {
   return {
     events: {
-      'app.created':'grab'
+      'app.created':'grab',
+      'updateTicket.fail':'fail'
     },
     requests: {
       'updateTicket': function(assignee) {
@@ -10,31 +11,33 @@
           type: 'PUT',
           dataType: 'JSON',
           contentType: 'application/JSON',
-          data: JSON.stringify({"ticket":
-            {
-              "assignee_id": assignee
-            }
-          })
+          data: JSON.stringify({'ticket':{ 'assignee_id': assignee }})
         };
       }
     },
     grab: function() {
-      if(this.ticket().postSaveAction() == 'next_play_ticket') {
-        console.log("Play enabled");
+      var action = this.ticket().postSaveAction(),
+          assignee = this.ticket().assignee();
+          // debugger;
+      if(action == 'next_play_ticket' && !assignee.user()) {
+        // console.log('Grabbing!');
         var me = this.currentUser().id(),
             ticket = this.ticket().id();
         if(this.setting('force')) {
           // assign with AJAX
-          this.ajax('updateTicket', me)
-          .done(function(response) {
-            console.log(response);
+          this.ajax('updateTicket', me).done(function(response) {
+            // console.dir(response);
           });
         } else {
-          // set assignee on current ticket
+          // assign with JS
           this.ticket().assignee({'userId': me});
         }
+      } else {
+        // console.log('conditions failed');
       }
+    },
+    fail: function(response) {
+      services.notify('Could not assign this ticket to you.', 'error');
     }
   };
-
 }());
